@@ -1,4 +1,4 @@
-module bytesizer
+module github.com/iamlongalong/bytesizer
 
 go 1.19
 
