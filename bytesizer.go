@@ -25,6 +25,15 @@ var units = []struct {
 	{Byte, "B"}, {KB, "KB"}, {MB, "MB"}, {GB, "GB"}, {TB, "TB"}, {PB, "PB"},
 }
 
+// Calc calc the []byte length, trans to ByteSize.
+func Calc(b []byte) ByteSize {
+	return ByteSize(len(b))
+}
+
+// Format method formats the ByteSize value to a string based on the given byte unit.
+// It iterates over the predefined units until it matches the given unit,
+// then calls formatString to generate the final formatted string.
+// If the unit doesn't match any predefined units, it returns the string representation of the ByteSize itself.
 func (fs ByteSize) Format(bu ByteSize) string {
 
 	unitVal := float64(fs) / float64(bu)
@@ -38,6 +47,7 @@ func (fs ByteSize) Format(bu ByteSize) string {
 	return fs.String()
 }
 
+// String method converts ByteSize to a string with an appropriate unit.
 func (fs ByteSize) String() string {
 	switch {
 	case fs >= PB:
@@ -55,50 +65,62 @@ func (fs ByteSize) String() string {
 	return formatString(fs.Byte(), "B", 2)
 }
 
+// Byte method returns the ByteSize in bytes as a float64.
 func (fs ByteSize) Byte() float64 {
 	return float64(fs)
 }
 
+// KB method returns the ByteSize in kilobytes as a float64.
 func (fs ByteSize) KB() float64 {
 	return float64(fs) / float64(KB)
 }
 
+// MB method returns the ByteSize in megabytes as a float64.
 func (fs ByteSize) MB() float64 {
 	return float64(fs) / float64(MB)
 }
 
+// GB method returns the ByteSize in gigabytes as a float64.
 func (fs ByteSize) GB() float64 {
 	return float64(fs) / float64(GB)
 }
 
+// TB method returns the ByteSize in terabytes as a float64.
 func (fs ByteSize) TB() float64 {
 	return float64(fs) / float64(TB)
 }
 
+// PB method returns the ByteSize in petabytes as a float64.
 func (fs ByteSize) PB() float64 {
 	return float64(fs) / float64(PB)
 }
 
+// ByteInt method returns the ByteSize in bytes as an integer.
 func (fs ByteSize) ByteInt() int {
 	return int(fs)
 }
 
+// KBInt method returns the ByteSize in kilobytes as an integer.
 func (fs ByteSize) KBInt() int {
 	return int(fs / KB)
 }
 
+// MBInt method returns the ByteSize in megabytes as an integer.
 func (fs ByteSize) MBInt() int {
 	return int(fs / MB)
 }
 
+// GBInt method returns the ByteSize in gigabytes as an integer.
 func (fs ByteSize) GBInt() int {
 	return int(fs / GB)
 }
 
+// TBInt method returns the ByteSize in terabytes as an integer.
 func (fs ByteSize) TBInt() int {
 	return int(fs / TB)
 }
 
+// PBInt method returns the ByteSize in petabytes as an integer.
 func (fs ByteSize) PBInt() int {
 	return int(fs / TB)
 }
@@ -176,6 +198,10 @@ func formatString(v float64, unit string, maxDecimalCount ...int) string {
 	return fmt.Sprintf(formatString, n, unit)
 }
 
+// decimalPlaces counts the decimal places in a float64.
+// E.g1: decimalPlaces(1.23) returns 2
+// E.g2: decimalPlaces(100.456) returns 3.
+// E.g3: decimalPlaces(10.100) returns 1.
 func decimalPlaces(f float64) (n int) {
 	const epsilon = 1e-10
 	for math.Abs(f-math.Floor(f)) > epsilon {
